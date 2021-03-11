@@ -19,10 +19,8 @@ router.post("/SignUp", (req, res, next) => {
   if (req.body.Email && req.body.Username && req.body.Password) {
     UserModel.findOne({ Email: req.body.Email }).then((user) => {
       if (user) {
-        console.log("user_exist");
         res.json({ error: "this user is already exit" });
       } else {
-        console.log("enter");
         bcrypt.hash(req.body.Password, 12).then((hashedPwd) => {
           console.log(req.body.Password);
           console.log(hashedPwd);

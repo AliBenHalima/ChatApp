@@ -1,21 +1,28 @@
 const users=[]
+const ChatroomModel = require("../Models/Chatroom");
 
-const JoinUser = (id,username,room)=>{
+const JoinUser = async(id,username,room)=>{
    
     const user={id,username,room}
-
-    users.push(user)
-        // console.log(users)
+  try{
+    await ChatroomModel.updateOne({"name":room},{"$addToSet":{
+        "users":username
+      }});
+  }catch(e){
+      console.log(e)
+  }
+  
+        
     return user
 }
-const UserLeave = (id)=>{
-    const index = users.findIndex(user=>user.id===id)
-    if(index !== -1){
-        const user = users.splice(index,1)[0]
-        // console.log(user)
-
-        return user
+const UserLeave = async (room,username)=>{
+    try{
+    await ChatroomModel.updateOne({"name":room}, {$pull: { "users": username}});
+    }catch(e){
+        console.log(e)
     }
+    return username
+
 }
 const RoomUsers =(room)=>{
     return users.filter(user=>user.room===room)

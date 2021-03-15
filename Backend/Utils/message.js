@@ -1,6 +1,6 @@
- const FormatMessage = (username,text)=>{
+ const FormatMessage = (username,message)=>{
      return {
-         username,text
+         username,message
      }
  }
 
